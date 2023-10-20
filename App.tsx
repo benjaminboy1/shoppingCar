@@ -5,7 +5,6 @@ import OnboardScreen from './src/navigation/OnboardScreen';
 export default function App() {
   return (
     <View>
-     
       <Login />
     </View>
   );
