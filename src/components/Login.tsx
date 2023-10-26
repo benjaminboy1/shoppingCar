@@ -4,10 +4,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Animated, { FadeInDown, FadeInLeft, FadeInRight, FadeInUp } from 'react-native-reanimated';
+
 import TextInpute from './TextInpute';
-
 import { useFonts } from 'expo-font';
-
+import Google from '../../assets/images/misc/Google.svg';
+import Twitte from "../../assets/images/misc/Twitte.svg";
+import Facebook from "../../assets/images/misc/Facebook.svg";
 
 
 const {height, width} = Dimensions.get('window');
@@ -28,7 +30,7 @@ const Login = () => {
   return (
     <SafeAreaView className=" ">
       <View className="items-center justify-center mt-[40] ">
-        <Animated.Image entering={FadeInUp.delay(200).duration(1000).springify()} style={{height:hp(34), width:wp(70)}} className="object-fill"  source={require("../../assets/images/loginer.png")}/>
+        <Animated.Image entering={FadeInUp.delay(200).duration(1000).springify()} style={{height:hp(35), width:wp(70)}} className="object-fill"  source={require("../../assets/images/loginer.png")}/>
       </View>
 
 
@@ -43,23 +45,44 @@ const Login = () => {
       {/** form */}
         <View className="flex items-center mx-4 space-y-4">
           
-          <Animated.View entering={FadeInLeft.delay(200).duration(1000).springify()} className="bg-black/5 p-3 row-end rounded-2xl w-full">
-             
-            <TextInpute />         
-    <MaterialIcons name="email" size={24} color="black" />
-
-           </Animated.View>
+            <Animated.View entering={FadeInLeft.delay(200).duration(1000).springify()} className="bg-black/5 p-3 rounded-2xl w-full">  
+              <TextInpute label={"Email"} icon={<MaterialIcons  className="" name="email" size={24} color="black"/>} />
+            </Animated.View>
            <Animated.View entering={FadeInRight.delay(200).duration(1000).springify()}  className="bg-black/5 p-3 rounded-2xl w-full">
-              <TextInput placeholder="Password" placeholderTextColor={'gray'}>
-              </TextInput>
+           <TextInpute  label={"Password"} icon={<MaterialIcons name="lock" size={24} color="black" />}
+            inputType="password"
+            fieldButtonFunction={() => {}}
+            />         
+           
            </Animated.View>
-            
-          <Animated.View   entering={FadeInDown.delay(200).duration(1000)} className="w-full top-9">
-            <TouchableOpacity className="bg-gray-500 p-3 mb-5 rounded-2xl">
+
+           <TouchableOpacity>
+              <Text className="left-36 ">Forgot</Text>
+            </TouchableOpacity>
+
+          <Animated.View   entering={FadeInDown.delay(200).duration(1000)} className="w-full top-2">
+            <TouchableOpacity className="bg-gray-500 p-3 rounded-2xl">
               <Text style={{ fontFamily: 'YoungSerif-Regular' }} className='text-white text-xl font-bold text-center'>Login</Text>
             </TouchableOpacity>
           </Animated.View>
-          <Animated.View style={{top:50}} entering={FadeInDown.delay(200).duration(1000)} className="flex-row justify-center">
+          <View className="items-center top-2">
+            <Text>Or Login With...</Text>
+          </View>
+          <View className="top-2 flex-row space-x-20 ">
+            <TouchableOpacity className=" bg-black/5 p-3 rounded-md ">
+              <Google width={24} height={24}/>
+            </TouchableOpacity>
+
+            <TouchableOpacity className=" bg-black/5 p-3 rounded-md ">
+              <Twitte width={24} height={24}/>
+            </TouchableOpacity>
+
+            <TouchableOpacity className=" bg-black/5 p-3 rounded-md ">
+              <Facebook width={24} height={24}/>
+            </TouchableOpacity>
+
+          </View>
+          <Animated.View style={{top:15}} entering={FadeInDown.delay(200).duration(1000)} className="flex-row justify-center">
             <Text>Don't have an account? </Text>
             <TouchableOpacity>
               <Text className="text-sky-700">SignUp</Text>
