@@ -51,35 +51,48 @@ const Login = () => {
            <Animated.View entering={FadeInRight.delay(200).duration(1000).springify()}  className="bg-black/5 p-3 rounded-2xl w-full">
            <TextInpute  label={"Password"} icon={<MaterialIcons name="lock" size={24} color="black" />}
             inputType="password"
-            fieldButtonFunction={() => {}}
+            //fieldButtonFunction={() => {}}
             />         
            
            </Animated.View>
 
-           <TouchableOpacity>
+            <Animated.View entering={FadeInUp.delay(200).duration(1000)}>
+            <TouchableOpacity>
               <Text className="left-36 ">Forgot</Text>
             </TouchableOpacity>
+            </Animated.View>
+           
 
-          <Animated.View   entering={FadeInDown.delay(200).duration(1000)} className="w-full top-2">
+          <Animated.View entering={FadeInDown.delay(200).duration(1000)} className="w-full top-2">
             <TouchableOpacity className="bg-gray-500 p-3 rounded-2xl">
               <Text style={{ fontFamily: 'YoungSerif-Regular' }} className='text-white text-xl font-bold text-center'>Login</Text>
             </TouchableOpacity>
           </Animated.View>
-          <View className="items-center top-2">
+          <Animated.View style={{top:15}} entering={FadeInUp.delay(200).duration(1000)} className="items-center top-2">
             <Text>Or Login With...</Text>
-          </View>
+          </Animated.View>
+
+          {/**Social media Login with */}
           <View className="top-2 flex-row space-x-20 ">
-            <TouchableOpacity className=" bg-black/5 p-3 rounded-md ">
+            <Animated.View entering={FadeInLeft.delay(200).duration(1000)}>
+            <TouchableOpacity  className=" bg-black/5 p-3 rounded-md ">
               <Google width={24} height={24}/>
             </TouchableOpacity>
+            </Animated.View>
 
-            <TouchableOpacity className=" bg-black/5 p-3 rounded-md ">
-              <Twitte width={24} height={24}/>
+            <Animated.View entering={FadeInUp.delay(200).duration(1000)}>
+            <TouchableOpacity  className=" bg-black/5 p-3 rounded-md ">
+              <Google width={24} height={24}/>
             </TouchableOpacity>
+            </Animated.View>
 
-            <TouchableOpacity className=" bg-black/5 p-3 rounded-md ">
-              <Facebook width={24} height={24}/>
+            <Animated.View entering={FadeInRight.delay(200).duration(1000)}>
+            <TouchableOpacity  className=" bg-black/5 p-3 rounded-md ">
+              <Google width={24} height={24}/>
             </TouchableOpacity>
+            </Animated.View>
+            
+
 
           </View>
           <Animated.View style={{top:15}} entering={FadeInDown.delay(200).duration(1000)} className="flex-row justify-center">

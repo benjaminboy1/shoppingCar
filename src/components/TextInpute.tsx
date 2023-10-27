@@ -3,9 +3,15 @@ import React from 'react'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import {TextInput, View,} from 'react-native'
 
+interface TextInputeProps {
+  label: string
+  icon?: React.ReactNode
+  inputType?: 'text' | 'password'
+  keyboardType?: 'email-address' | 'numeric' | 'default'
+}
 
 
-const TextInpute = ({label, icon, inputType, keyboardType}) => {
+const TextInpute = ({label, icon, inputType, keyboardType}: TextInputeProps) => {
   return ( 
     <View style={{flexDirection:'row',}}>
      {inputType == 'password' ? (
