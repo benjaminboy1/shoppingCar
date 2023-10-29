@@ -10,17 +10,23 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Ionicons } from '@expo/vector-icons'; 
 import Animated, { FadeInDown, FadeInLeft, FadeInRight, FadeInUp } from 'react-native-reanimated';
 
-import TextInpute from './TextInpute';
+import TextInpute from '../TextInpute';
 import { useFonts } from 'expo-font';
 import Google from '../../assets/images/misc/Google.svg';
 import Twitte from "../../assets/images/misc/Twitte.svg";
 import Facebook from "../../assets/images/misc/Facebook.svg";
 
+import { HomeScreenNavigationProp } from '../../global';
 
 const {height, width} = Dimensions.get('window');
 
+import { useNavigation } from '@react-navigation/native';
 
-const Signup = () => {
+
+
+const SignupScreen = () => {
+
+  const navigation = useNavigation<HomeScreenNavigationProp>()
 
   const [agree, setAgree] = useState(false);
 
@@ -87,15 +93,11 @@ const Signup = () => {
 
         
 
-
-
-           
-
             <Animated.View entering={FadeInUp.delay(200).duration(1000)} className="flex-row p-2">
                 <View className="left-2 mr-4">
                 <CheckBox
-                  tintColors={{true: '#367098'}}
-                  onCheckColor={'#6F763F'}
+                  
+                  
                     value={agree}
                    onValueChange={() => setAgree(!agree)}
                    color={agree ? "#4630EB" : "#4630EB"}
@@ -110,20 +112,22 @@ const Signup = () => {
              
             </Animated.View>
            
-
-          <Animated.View  entering={FadeInDown.delay(200).duration(1000)} className="w-full top-9">
+            <View className="justify-center m-2">
+            <Animated.View  entering={FadeInDown.delay(200).duration(1000)} className=" top-9">
             <TouchableOpacity disabled={!agree} className="bg-gray-500 p-3 rounded-2xl">
               <Text  style={{ fontFamily: 'YoungSerif-Regular' }} className='text-white text-xl font-bold text-center'>Sign up</Text>
             </TouchableOpacity>
             
           </Animated.View>
+            </View>
+        
           
 
          
           <Animated.View style={{top:50}} entering={FadeInDown.delay(200).duration(1000)} className="flex-row justify-center">
             <Text>Already have an account ? </Text>
-            <TouchableOpacity>
-              <Text className="text-sky-700">Log In</Text>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Text className="text-sky-700">LogIn</Text>
             </TouchableOpacity>
           </Animated.View>
        
@@ -134,4 +138,4 @@ const Signup = () => {
   )
 }
 
-export default Signup;
+export default SignupScreen;

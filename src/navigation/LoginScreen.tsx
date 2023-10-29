@@ -5,17 +5,25 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Animated, { FadeInDown, FadeInLeft, FadeInRight, FadeInUp } from 'react-native-reanimated';
 
-import TextInpute from './TextInpute';
+import TextInpute from '../TextInpute';
+import SignupScreen from './SignupScreen';
+import Forgot from './Forgot';
+
 import { useFonts } from 'expo-font';
 import Google from '../../assets/images/misc/Google.svg';
 import Twitte from "../../assets/images/misc/Twitte.svg";
 import Facebook from "../../assets/images/misc/Facebook.svg";
 
+import { HomeScreenNavigationProp } from '../../global';
 
 const {height, width} = Dimensions.get('window');
 
+import { useNavigation } from '@react-navigation/native';
 
-const Login = () => {
+
+const LoginScreen = () => {
+
+  const navigation = useNavigation<HomeScreenNavigationProp>();
 
   const [fontsLoaded] = useFonts({
    'YoungSerif-Regular': require('../../assets/fonts/YoungSerif-Regular.ttf'),
@@ -57,7 +65,7 @@ const Login = () => {
            </Animated.View>
 
             <Animated.View entering={FadeInUp.delay(200).duration(1000)}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Forgot')}>
               <Text className="left-36 ">Forgot</Text>
             </TouchableOpacity>
             </Animated.View>
@@ -67,6 +75,7 @@ const Login = () => {
             <TouchableOpacity className="bg-gray-500 p-3 rounded-2xl">
               <Text style={{ fontFamily: 'YoungSerif-Regular' }} className='text-white text-xl font-bold text-center'>Login</Text>
             </TouchableOpacity>
+            
           </Animated.View>
           <Animated.View style={{top:15}} entering={FadeInUp.delay(200).duration(1000)} className="items-center top-2">
             <Text>Or Login With...</Text>
@@ -82,13 +91,13 @@ const Login = () => {
 
             <Animated.View entering={FadeInUp.delay(200).duration(1000)}>
             <TouchableOpacity  className=" bg-black/5 p-3 rounded-md ">
-              <Google width={24} height={24}/>
+              <Twitte width={24} height={24}/>
             </TouchableOpacity>
             </Animated.View>
 
             <Animated.View entering={FadeInRight.delay(200).duration(1000)}>
             <TouchableOpacity  className=" bg-black/5 p-3 rounded-md ">
-              <Google width={24} height={24}/>
+              <Facebook width={24} height={24}/>
             </TouchableOpacity>
             </Animated.View>
             
@@ -97,7 +106,7 @@ const Login = () => {
           </View>
           <Animated.View style={{top:15}} entering={FadeInDown.delay(200).duration(1000)} className="flex-row justify-center">
             <Text>Don't have an account? </Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
               <Text className="text-sky-700">SignUp</Text>
             </TouchableOpacity>
           </Animated.View>
@@ -109,4 +118,4 @@ const Login = () => {
   )
 }
 
-export default Login;
+export default LoginScreen;

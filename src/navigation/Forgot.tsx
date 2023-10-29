@@ -3,8 +3,8 @@ import React from 'react'
 
 const Forgot = () => {
   return (
-    <View>
-      <Text>Forgot;</Text>
+    <View className='flex-1 items-center justify-center bg-gray-400'>
+      <Text className='text-4xl font-semibold'>Forgot</Text>
     </View>
   )
 }

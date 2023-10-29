@@ -6,9 +6,16 @@ import { useFonts } from 'expo-font';
 
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import Animated, { FadeInDown, FadeInLeft, FadeInRight, FadeInUp } from 'react-native-reanimated';
+import LoginScreen from './LoginScreen';
 
 const {height, width} = Dimensions.get('window');
+
+import { useNavigation } from '@react-navigation/native';
+import { HomeScreenNavigationProp } from '../../global';
 const OnboardScreen = () => {
+  
+  const navigation = useNavigation<HomeScreenNavigationProp>();
+
 
   //const deviceHight = Dimensions.get('window').height;
  // const deviceWidth = Dimensions.get('window').width;
@@ -38,7 +45,11 @@ const OnboardScreen = () => {
         <Animated.Text entering={FadeInDown.delay(200).duration(1000).springify()} style={{ fontFamily: 'YoungSerif-Regular', fontSize: 14, }} className="text-gray-400 mt-8 ">Make all of your dreams reality with us by making amazing choice. And be serve wherever you are around the world, safe and secure !</Animated.Text>
         </View>  
       <Animated.View entering={FadeInDown.delay(200).duration(1000).springify()} className="justify-center items-center mt-[35]">
-      <TouchableOpacity className="items-center justify-center bg-slate-200 h-12 w-80 rounded-xl ">
+      <TouchableOpacity className="items-center justify-center bg-slate-200 h-12 w-80 rounded-xl "
+      
+      onPress={() => navigation.navigate('Login')}
+
+      >
         <Text style={{ fontFamily: 'YoungSerif-Regular', fontSize: 23, }} className="text-gray-700">Let's Go</Text>
       </TouchableOpacity>
       </Animated.View>
