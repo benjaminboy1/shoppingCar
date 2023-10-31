@@ -8,6 +8,8 @@ export type HomeStacknavigatorParamList = {
     Signup: undefined;
     Onboard: undefined;
     Forgot: undefined;
+    Initial: undefined;
+    Home: undefined;
 
 };
 
@@ -17,6 +19,8 @@ Login,
 Signup,
 Onboard,
 Forgot,
+Initial,
+Home
 
 
 >

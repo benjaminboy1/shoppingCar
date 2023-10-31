@@ -7,7 +7,7 @@ import Animated, { FadeInDown, FadeInLeft, FadeInRight, FadeInUp } from 'react-n
 
 import TextInpute from '../TextInpute';
 import SignupScreen from './SignupScreen';
-import Forgot from './Forgot';
+import Forgot from './ForgotScreen';
 
 import { useFonts } from 'expo-font';
 import Google from '../../assets/images/misc/Google.svg';

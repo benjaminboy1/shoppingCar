@@ -4,9 +4,10 @@ import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFonts } from 'expo-font';
 
+
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import Animated, { FadeInDown, FadeInLeft, FadeInRight, FadeInUp } from 'react-native-reanimated';
-import LoginScreen from './LoginScreen';
+import InitialScreen from './InitialScreen';
 
 const {height, width} = Dimensions.get('window');
 
@@ -47,7 +48,7 @@ const OnboardScreen = () => {
       <Animated.View entering={FadeInDown.delay(200).duration(1000).springify()} className="justify-center items-center mt-[35]">
       <TouchableOpacity className="items-center justify-center bg-slate-200 h-12 w-80 rounded-xl "
       
-      onPress={() => navigation.navigate('Login')}
+      onPress={() => navigation.navigate('Initial')}
 
       >
         <Text style={{ fontFamily: 'YoungSerif-Regular', fontSize: 23, }} className="text-gray-700">Let's Go</Text>
