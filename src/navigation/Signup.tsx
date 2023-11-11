@@ -16,19 +16,50 @@ import Google from '../../assets/images/misc/Google.svg';
 import Twitte from "../../assets/images/misc/Twitte.svg";
 import Facebook from "../../assets/images/misc/Facebook.svg";
 
-import { HomeScreenNavigationProp } from '../../global';
+
+
+
+
+import { auth, db } from '../../firebase/firebase';
+import { doc, setDoc } from 'firebase/firestore';
+import { createUserWithEmailAndPassword } from "firebase/auth";
+
 
 const {height, width} = Dimensions.get('window');
+export default function Signup({ navigation }: { navigation: any }) {
+  
+  
+  //const navigation = useNavigation<HomeScreenNavigationProp>();
 
-import { useNavigation } from '@react-navigation/native';
+  const [agree, setAgree] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
+  const [phone, setPhone] = useState<number | string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+ 
+  const handleSignup = async () => {
+    setLoading(true);
+    //const success =
+     await createUserWithEmailAndPassword(auth, email.trim(), password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        setLoading(false);
+        setDoc(doc(db, "users", user.uid), {
+          Name: username,
+          Email: email,
+          PhoneNumber: phone,
+          CreatedAt: new Date().toUTCString(),
+        });
+       
+      })
+      .then(() => alert("account created successfully 🎉"))
+      .catch((err: any) => {
+        alert(err.message);
+      });
+      //navigation.navigate('Home'); 
+  };
 
-
-
-const SignupScreen = () => {
-
-  const navigation = useNavigation<HomeScreenNavigationProp>()
-
-  const [agree, setAgree] = useState(false);
 
   const [fontsLoaded] = useFonts({
    'YoungSerif-Regular': require('../../assets/fonts/YoungSerif-Regular.ttf'),
@@ -65,25 +96,43 @@ const SignupScreen = () => {
 
 
               <Animated.View entering={FadeInLeft.delay(200).duration(1000).springify()} className="bg-black/5 p-3 rounded-2xl w-full">  
-                  <TextInpute label={"Names"} icon={<MaterialIcons name="person" size={24} color="black" />} />
+                  <TextInpute
+                  
+                  value={username}
+                  onChangeText={(text) => setUsername(text)}
+                  keyboardType="default"
+                  secureTextEntry={false}
+
+                  label={"Names"} icon={<MaterialIcons name="person" size={24} color="black" />} />
                 </Animated.View>
 
                <Animated.View entering={FadeInLeft.delay(200).duration(1000).springify()} className="bg-black/5 p-3 rounded-2xl w-full">  
-                  <TextInpute label={"Email Adress"} icon={<MaterialIcons  className="" name="email" size={24} color="black"/>} />
+                  <TextInpute
+                  value={email}
+                  onChangeText={(text) => setEmail(text)}
+                  keyboardType="email-address"
+                 secureTextEntry={false}
+
+                  label={"Email Adress"} icon={<MaterialIcons  className="" name="email" size={24} color="black"/>} />
                </Animated.View>
 
               <Animated.View entering={FadeInLeft.delay(200).duration(1000).springify()} className="bg-black/5 p-3 rounded-2xl w-full">  
-              <TextInpute label={"Phone Number"} icon={<MaterialIcons name="phone" size={24} color="black" />} />
+              <TextInpute
+              value={phone?.toString()}
+              keyboardType="numeric"
+              onChangeText={(text) => setPhone(text)}
+              secureTextEntry={false}
+              label={"Phone Number"} icon={<MaterialIcons name="phone" size={24} color="black" />} />
               </Animated.View>
+               
                <Animated.View entering={FadeInRight.delay(200).duration(1000).springify()}  className="bg-black/5 p-3 rounded-2xl w-full">
-               <TextInpute  label={"Password"} icon={<Ionicons name="md-shield-checkmark-sharp" size={24} color="black" />}
-                inputType="password"
-                //fieldButtonFunction={() => {}}
-                   />         
-           
-              </Animated.View>
-               <Animated.View entering={FadeInRight.delay(200).duration(1000).springify()}  className="bg-black/5 p-3 rounded-2xl w-full">
-              <TextInpute  label={"Confirm Password"} icon={<Ionicons name="md-shield-checkmark-sharp" size={24} color="black" />}
+              <TextInpute
+              
+              value={password}
+              secureTextEntry={true}
+              onChangeText={(text) => setPassword(text)}
+              
+              label={"Confirm Password"} icon={<Ionicons name="md-shield-checkmark-sharp" size={24} color="black" />}
                inputType="password"
                 //fieldButtonFunction={() => {}}
                 />         
@@ -114,8 +163,14 @@ const SignupScreen = () => {
            
             <View className="justify-center m-2">
             <Animated.View  entering={FadeInDown.delay(200).duration(1000)} className=" top-9">
-            <TouchableOpacity disabled={!agree} className="bg-gray-500 p-3 rounded-2xl">
-              <Text  style={{ fontFamily: 'YoungSerif-Regular' }} className='text-white text-xl font-bold text-center'>Sign up</Text>
+            <TouchableOpacity 
+            onPress={handleSignup}
+            //onPress={()=> navigation.navigate('Home')}
+            
+            disabled={!agree} className="bg-gray-500 p-3 rounded-2xl">
+              <Text  style={{ fontFamily: 'YoungSerif-Regular' }} className='text-white text-xl font-bold text-center'>
+              {loading ? "Creating account..." : "Create Account"}
+              </Text>
             </TouchableOpacity>
             
           </Animated.View>
@@ -138,4 +193,4 @@ const SignupScreen = () => {
   )
 }
 
-export default SignupScreen;
+//export default Signup;

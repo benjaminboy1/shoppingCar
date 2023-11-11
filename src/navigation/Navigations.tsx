@@ -1,20 +1,23 @@
 import React from 'react-native';
 
 import { StyleSheet, Text, View } from 'react-native';
-import LoginScreen from './LoginScreen';
-import SignupScreen from './SignupScreen';
 import OnboardScreen from './OnboardScreen';
+import AuthStack from "./Navigations";
+import Signup from './Signup';
+import Login from './Login';
+import Forgot from './Forgot';
 
-import Forgot from './ForgotScreen';
-
-import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
 import { HomeStacknavigatorParamList } from '../../global';
 
 import Animated, { FadeInDown, FadeInLeft, FadeInRight, FadeInUp } from 'react-native-reanimated';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import InitialScreen from './InitialScreen';
+import AuthStackScreen from './AuthStackScreen';
+
 
 
 const Stack = createStackNavigator<HomeStacknavigatorParamList>();
@@ -44,32 +47,35 @@ const Navigations = () => {
       screenOptions={{
        headerShown: false,
       gestureEnabled: false,
-
-     }}
-      
+      //initialRouteName="Onboard"
+    }}
       >
         <Stack.Screen name="Onboard" component={OnboardScreen} />
-        <Stack.Screen name="Initial" component={InitialScreen} />
-  
+       <Stack.Screen name="AuthStack" component={AuthStackScreen} />
+
+        
       </Stack.Navigator>
  </NavigationContainer>
 
     );
   } else {
    return (
-    <NavigationContainer>
-      <Stack.Navigator
-       screenOptions={{
-        headerShown: false,
-       gestureEnabled: false,
- 
-      }}
-      >
-      <Stack.Screen name="Initial" component={InitialScreen} />
+
+    <NavigationContainer >
+    <Stack.Navigator  
+     screenOptions={{
+      headerShown: false,
+     gestureEnabled: false,
+
+    }}
+    >
+      {/* Your nested screens */}
+       <Stack.Screen name="AuthStack" component={AuthStackScreen} />
 
 
-      </Stack.Navigator>
-    </NavigationContainer>
+    </Stack.Navigator>
+  </NavigationContainer>
+
    )
   }
 }

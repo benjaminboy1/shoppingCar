@@ -1,26 +1,23 @@
-
-import { useState, useEffect } from "react";
-
-import { auth } from "../../firebase/firebase";
-import { User, onAuthStateChanged } from "firebase/auth";
+import React, { useState, useEffect } from "react";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 
-
+import  HomeScreen from "../component/HomeScreen";
 import InitialScreen from "./InitialScreen";
-import HomeScreen from "../components/HomeScreen";
+import { StackScreenProps } from "@react-navigation/stack"
+
+import { User, onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../firebase/firebase";
 import { HomeStacknavigatorParamList } from "../../global";
+import Dashboard from "./Dashboard";
 
-
+//const Stack = createNativeStackNavigator();
 
 
 const Stack = createNativeStackNavigator<HomeStacknavigatorParamList>();
 
-
-
-
-export default function AuthStack() {
+const AuthStackScreen = () => {
     const [user, setUser] = useState<User | null>(null);
   
     useEffect(() => {
@@ -32,12 +29,12 @@ export default function AuthStack() {
   
     return (
       //   {user ? <AuthStack /> : <InitialScreenOnStart />}
-      <NavigationContainer>
+     
         <Stack.Navigator>
-          {user ? (
+          { user ? (
             <Stack.Screen
-              name="Home"
-              component={HomeScreen}
+              name="Dashboard"
+              component={Dashboard}
               options={{ headerShown: false }}
             />
           ) : (
@@ -48,6 +45,8 @@ export default function AuthStack() {
             />
           )}
         </Stack.Navigator>
-      </NavigationContainer>
+      
     );
   }
+
+export default AuthStackScreen;

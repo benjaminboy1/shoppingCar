@@ -7,15 +7,18 @@ import { useFonts } from 'expo-font';
 
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import Animated, { FadeInDown, FadeInLeft, FadeInRight, FadeInUp } from 'react-native-reanimated';
-import InitialScreen from './InitialScreen';
+import AuthStackScreen from './AuthStackScreen';
+
 
 const {height, width} = Dimensions.get('window');
 
 import { useNavigation } from '@react-navigation/native';
 import { HomeScreenNavigationProp } from '../../global';
+
+
 const OnboardScreen = () => {
   
-  const navigation = useNavigation<HomeScreenNavigationProp>();
+const navigation = useNavigation<HomeScreenNavigationProp>();
 
 
   //const deviceHight = Dimensions.get('window').height;
@@ -48,7 +51,7 @@ const OnboardScreen = () => {
       <Animated.View entering={FadeInDown.delay(200).duration(1000).springify()} className="justify-center items-center mt-[35]">
       <TouchableOpacity className="items-center justify-center bg-slate-200 h-12 w-80 rounded-xl "
       
-      onPress={() => navigation.navigate('Initial')}
+      onPress={() => navigation.navigate('AuthStack')}
 
       >
         <Text style={{ fontFamily: 'YoungSerif-Regular', fontSize: 23, }} className="text-gray-700">Let's Go</Text>
@@ -59,4 +62,4 @@ const OnboardScreen = () => {
   )
 }
 
-export default OnboardScreen
+export default OnboardScreen;

@@ -1,7 +1,8 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 import Navigations from "./src/navigation/Navigations";
-import HomeScreen from './src/components/HomeScreen';
+
+
 
 const App = () => {
   return (

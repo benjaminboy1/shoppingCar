@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { HomeScreenNavigationProp } from '../../global';
 
 
-const ForgotScreen = () => {
+const Forgot = () => {
 
   const navigation = useNavigation<HomeScreenNavigationProp>()
 
@@ -23,4 +23,4 @@ const ForgotScreen = () => {
   )
 }
 
-export default ForgotScreen;
+export default Forgot;
