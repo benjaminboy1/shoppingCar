@@ -72,13 +72,11 @@ const Navigations = () => {
       {/* Your nested screens */}
        <Stack.Screen name="AuthStack" component={AuthStackScreen} />
 
-
     </Stack.Navigator>
   </NavigationContainer>
 
    )
   }
 }
-
 
 export default Navigations;
