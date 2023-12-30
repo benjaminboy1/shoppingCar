@@ -9,11 +9,12 @@ import {
   Dimensions,
   Alert,
   Image,
-  ScrollView 
+  ScrollView,
+  Animated,
 } from "react-native";
 
 import { WINDOW_HEIGHT } from "../utilis";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import { Feather } from "@expo/vector-icons";
 import { auth, db } from "../../firebase/firebase"
@@ -21,12 +22,165 @@ import { doc, getDoc } from "firebase/firestore";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 
-
+const AnimatedTextInput = Animated.createAnimatedComponent(TextInput)
 
 //export default function Dashboard({ navigation }: { navigation: any })
 export default function Dashboard({ navigation }: { navigation: any }) {
   const [userInfo, setUserInfo] = useState<any | undefined>(null);
 
+  const animatedValue = useRef(new Animated.Value(0)).current;
+  const scrollViewRef = useRef<ScrollView>(null);
+  const lastOffsetY = useRef(0);
+  const scrollDirection = useRef('');
+
+  const searchInputAnimation = {
+    transform: [
+      {
+        scaleX: animatedValue.interpolate({
+          inputRange: [0, 50],
+          outputRange: [1, 0],
+          extrapolate: 'clamp',
+        }),
+      }, 
+      {
+        translateX: animatedValue.interpolate({
+          inputRange: [0, 25],
+          outputRange: [0, -100],
+          extrapolate: 'clamp',
+        }),
+      },
+    ],
+      opacity: animatedValue.interpolate({
+        inputRange: [0, 25],
+        outputRange: [1, 0],
+        extrapolate: 'clamp',
+      }),
+  }
+  const featureNameAnimation = {
+    transform: [
+      {
+        scaleX: animatedValue.interpolate({
+          inputRange: [0, 30],
+          outputRange: [1, 0],
+          extrapolate: 'clamp',
+        }),
+      }, 
+    ],
+      opacity: animatedValue.interpolate({
+        inputRange: [0, 30],
+        outputRange: [1, 0],
+        extrapolate: 'clamp',
+      }),
+  }
+
+  const depositViewAnimation = {
+    transform: [
+      {
+        translateX: animatedValue.interpolate({
+          inputRange: [0, 80],
+          outputRange: [1, 36],
+          extrapolate: 'clamp',
+        }),
+      },
+      {
+        translateY: animatedValue.interpolate({
+          inputRange: [0, 50],
+          outputRange: [0, -30],
+          extrapolate: 'clamp',
+        }),
+      },
+    ]
+  }
+
+  const featureIconCicleAnimation = {
+    opacity: animatedValue.interpolate({
+      inputRange: [0, 25],
+      outputRange: [1, 0],
+      extrapolate: 'clamp',
+    }),
+
+  }
+
+  const featureIconAnimation = {
+    opacity: animatedValue.interpolate({
+      inputRange: [0, 50],
+      outputRange: [0, 1],
+      extrapolate: 'clamp',
+    }),
+
+  }
+  const carViewAnimation = {
+    transform: [
+      {
+        translateX: animatedValue.interpolate({
+          inputRange: [0, 80],
+          outputRange: [1, 45],
+          extrapolate: 'clamp',
+        }),
+      },
+      {
+        translateY: animatedValue.interpolate({
+          inputRange: [0, 100],
+          outputRange: [0, -83],
+          extrapolate: 'clamp',
+        }),
+      },
+    ]
+  }
+  const favoriteViewAnimation = {
+    transform: [
+      {
+        translateX: animatedValue.interpolate({
+          inputRange: [0, 80],
+          outputRange: [1, -5],
+          extrapolate: 'clamp',
+        }),
+      },
+      {
+        translateY: animatedValue.interpolate({
+          inputRange: [0, 100],
+          outputRange: [1, -83],
+          extrapolate: 'clamp',
+        }),
+      },
+    ]
+  }
+  const toolsViewAnimation = {
+    transform: [
+      {
+        translateX: animatedValue.interpolate({
+          inputRange: [0, 80],
+          outputRange: [1, -54],
+          extrapolate: 'clamp',
+        }),
+      },
+      {
+        translateY: animatedValue.interpolate({
+          inputRange: [0, 100],
+          outputRange: [1, -83],
+          extrapolate: 'clamp',
+        }),
+      },
+    ]
+  }
+  const scanViewAnimation = {
+    transform: [
+      {
+        translateX: animatedValue.interpolate({
+          inputRange: [0, 80],
+          outputRange: [1, -100],
+          extrapolate: 'clamp',
+        }),
+      },
+      {
+        translateY: animatedValue.interpolate({
+          inputRange: [0, 100],
+          outputRange: [1, -83],
+          extrapolate: 'clamp',
+        }),
+      },
+    ]
+  }
   {/* 
     
     const handleSignout = async () => {
@@ -101,10 +255,10 @@ export default function Dashboard({ navigation }: { navigation: any }) {
                 <View style={styles.searchContainer}>
                     <Image source={require('../../assets/images/iconsearch.png')}
                     style={styles.searchIcon} />
-                    <TextInput 
+                    <AnimatedTextInput 
                     placeholder="Search here"
                     placeholderTextColor="rgba(255, 255, 255, 0.8)"
-                    style={styles.searchInput} />
+                    style={[styles.searchInput, searchInputAnimation]} />
                 </View>
 
                 <Image source={require('../../assets/images/bell.png')} style={styles.bellIcon}/>
@@ -112,27 +266,51 @@ export default function Dashboard({ navigation }: { navigation: any }) {
                
           </View>
           <View style={styles.lowerHeader} >
-            <View style={styles.feature}>
-            <Image source={require('../../assets/images/bell.png')} style={styles.featureIconCicle}/>
-              <Text style={styles.featureName}>HELOP</Text>
-            </View>
-            <View style={styles.feature}>
-            <Image source={require('../../assets/images/bell.png')} style={styles.featureIconCicle}/>
-              <Text style={styles.featureName}>HELOP</Text>
-            </View>
-            <View style={styles.feature}>
-            <Image source={require('../../assets/images/bell.png')} style={styles.featureIconCicle}/>
-              <Text style={styles.featureName}>HELOP</Text>
-            </View>
-            <View style={styles.feature}>
-            <Image source={require('../../assets/images/bell.png')} style={styles.featureIconCicle}/>
-              <Text style={styles.featureName}>HELOP</Text>
-            </View>
+
+            <Animated.View style={[styles.feature, carViewAnimation]}>
+
+            <Animated.Image source={require('../../assets/images/car.png')} style={[styles.featureIconCicle, featureIconCicleAnimation]}/>
+            <Animated.Image source={require('../../assets/images/car.png')} style={[styles.featureIcons, featureIconAnimation]}/>
+              <Animated.Text style={[styles.featureName, featureNameAnimation]}>HELOP</Animated.Text>
+            </Animated.View>
+
+            <Animated.View style={[styles.feature, favoriteViewAnimation]}>
+            <Animated.Image source={require('../../assets/images/favorite.png')} style={[styles.featureIconCicle, featureIconCicleAnimation]}/>
+            <Animated.Image source={require('../../assets/images/favorite.png')} style={[styles.featureIcons, featureIconAnimation]}/>
+              <Animated.Text style={[styles.featureName, featureNameAnimation]}>HELOP</Animated.Text>
+            </Animated.View>
+
+            <Animated.View style={[styles.feature, toolsViewAnimation]}>
+            <Animated.Image source={require('../../assets/images/tools.png')} style={[styles.featureIconCicle, featureIconCicleAnimation]}/>
+            <Animated.Image source={require('../../assets/images/tools.png')} style={[styles.featureIcons, featureIconAnimation]}/>
+              <Animated.Text style={[styles.featureName, featureNameAnimation]}>HELOP</Animated.Text>
+            </Animated.View>
+
+            <Animated.View style={[styles.feature, scanViewAnimation]}>
+            <Animated.Image source={require('../../assets/images/scan.png')} style={[styles.featureIconCicle, featureIconCicleAnimation]}/>
+            <Animated.Image source={require('../../assets/images/scan.png')} style={[styles.featureIcons, featureIconAnimation]}/>
+              <Animated.Text style={[styles.featureName, featureNameAnimation]}>HELOP</Animated.Text>
+            </Animated.View>
 
           </View>
     
     </SafeAreaView>
-    <ScrollView>
+    <ScrollView
+    ref={scrollViewRef}
+    onScroll={e => {
+      const offsetY = e.nativeEvent.contentOffset.y;
+      scrollDirection.current = offsetY - lastOffsetY.current > 0 ? 'down' : 'up';
+      lastOffsetY.current = offsetY;
+      animatedValue.setValue(offsetY);
+    }}
+    onScrollEndDrag={() => {
+      scrollViewRef.current?.scrollTo({
+        y: scrollDirection.current === 'down' ? 100 : 0,
+        animated: true,
+      })
+    }}
+    scrollEventThrottle={16}
+    >
         <View  style={styles.scrolheader}/>
         <View  style={styles.scrolview}/>
         </ScrollView>
@@ -140,6 +318,8 @@ export default function Dashboard({ navigation }: { navigation: any }) {
     </View>
   );
 }
+const UPPER_HEADER_HEIGTH = 55;
+const LOWER_HEADER_HEIGTH = 122;
 
 const styles = StyleSheet.create({
   container: {
@@ -155,19 +335,19 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   scrolheader: {
-    height: 90,
+    height: 90 ,
   },
   scrololder: {
-    height: 52,
+    height: UPPER_HEADER_HEIGTH,
   },
   upperHeader: {
-    height: 63,
+    height: UPPER_HEADER_HEIGTH,
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 12,
   },
   lowerHeader: {
-    height: 100,
+    height: LOWER_HEADER_HEIGTH,
     flexDirection: 'row',
     justifyContent:"space-between",
     alignItems:'center',
@@ -180,14 +360,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   searchIcon: {
-      width: 16,
-      height: 16,
+      width: 20,
+      height: 20,
       marginLeft: 8
   },
   bellIcon: {
-    width: 16,
-    height: 16,
-    marginHorizontal: 32,
+    width: 20,
+    height: 20,
+    marginHorizontal: 30,
+    top: -2,
 },
 AvatarIcon: {
   width: 32,
@@ -207,8 +388,14 @@ feature:{
   alignItems: 'center',
 },
 featureIconCicle: {
-  width: 34,
-  height: 34,
+  width: 26,
+  height: 26,
+},
+featureIcons:{
+  width: 20,
+  height: 20,
+  position: 'absolute',
+  top: 8,
 },
 featureName:{
   fontWeight: 'bold',
